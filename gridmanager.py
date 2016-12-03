@@ -1,7 +1,7 @@
 import random
 
 #object for game logic so that it can be imported easily
-class Grid_logic:
+class GridManager:
     #constructor
     def __init__(self, num_rows, num_cols, symbols, colors):
         self.num_rows = num_rows
