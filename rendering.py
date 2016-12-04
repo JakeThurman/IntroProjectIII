@@ -27,7 +27,7 @@ class Hoverable:
 		self.rend = rend
 		
 	def is_hovered(self):
-		self.rend.collidepoint(pygame.mouse.get_pos())
+		return self.rend.collidepoint(pygame.mouse.get_pos())
 			
 # TODO: Merge with Hoverable
 class Option(object):

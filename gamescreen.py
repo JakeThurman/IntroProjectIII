@@ -91,8 +91,7 @@ class GameScreen(Screen):
 	
 	def handle_click(self):
 		for el, symbol in self._elements:
-			if el.is_hovered():
-				#TODO: This isn't working			
+			if el.is_hovered() and self._first_symbol_clicked != symbol:
 				if self._first_symbol_clicked != None:
 					self._grid_manager.swap(self._first_symbol_clicked, symbol)
 					self._first_symbol_clicked = None
