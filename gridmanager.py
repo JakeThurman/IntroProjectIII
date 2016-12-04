@@ -94,6 +94,6 @@ class GridManager:
         return (-1, -1)
     
 class Symbol:
-    def __init__(self, color, symbol):
+    def __init__(self, color, file_name):
         self.color = color
-        self.symbol = symbol        
+        self.file_name = file_name        
