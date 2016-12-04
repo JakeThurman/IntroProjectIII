@@ -14,8 +14,8 @@ class GridManager:
     def createGrid(self, num_rows, num_cols, symbols, colors):
         duplicates = []
 		
-		symbol_list = list(symbols)
-		random.shuffle(symbol_list)
+        symbol_list = list(symbols)
+        random.shuffle(symbol_list)
 
         # chooses num_row colors to randomly be assigned to each row
         color_list = list(colors)
