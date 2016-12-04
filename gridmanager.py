@@ -6,7 +6,7 @@ class GridManager:
     def __init__(self, num_rows, num_cols, symbols, colors):
         self.num_rows = num_rows
         self.num_cols = num_cols
-        self.grid, self.answer_key = self.createGrid(num_rows, num_cols, symbols, colors)
+        self.grid = self.createGrid(num_rows, num_cols, symbols, colors)
         
 
     # creates a shuffled grid with num_cols number of columns that contains
@@ -24,9 +24,6 @@ class GridManager:
             for col in range(0, num_cols):
                 duplicates.append(Symbol(color, symbols[col]))
         
-        # creates a duplicate of the sorted list (for answer key), and shuffles
-        #   the first list
-        answer_key_prep = list(duplicates)
         random.shuffle(duplicates)
 
         # creates a shuffled grid
@@ -37,16 +34,8 @@ class GridManager:
                 col.append(duplicates.pop())
             shuffled_grid.append(col)
 
-        # creates an answer key
-        answer_key = []
-        for col in range(0, num_cols):
-            col = []
-            for row in range(0, num_rows):
-                col.append(answer_key_prep.pop())
-            answer_key.append(col)
-
-        # returns the shuffled grid and answer key in a tuple
-        return (shuffled_grid, answer_key)
+        # returns the shuffled grid 
+        return shuffled_grid
 
     # returns true if the player's grid is the same as the answer key
     def gridIsSolved(self):
