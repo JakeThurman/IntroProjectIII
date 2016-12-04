@@ -65,7 +65,7 @@ class GameScreen(Screen):
 	"""Renderers Game Screen
 	"""	
 	ROWS = 5
-	TITLE_PADDING = 70
+	SQUARE_SIZE = 100
 	SYMBOLS = ("zinogre", "yang", "white_mana", "weiss", "red_mana", "mh_4", "guitar", "green_mana", "brachy", "blue_mana", "blake", "black_mana")
 	
 	def __init__(self, surface, screen_size, screen_manager, difficulty):
@@ -83,27 +83,44 @@ class GameScreen(Screen):
 		self._screen_size = screen_size
 		self._screen_manager = screen_manager
 				
-		self._column_nuber = difficulty.columns
-		self._grid_manager = GridManager(GameScreen.ROWS, self._column_nuber, GameScreen.SYMBOLS, colors.ALL)
+		self._column_number = difficulty.columns
+		self._grid_manager = GridManager(GameScreen.ROWS, self._column_number, GameScreen.SYMBOLS, colors.ALL)
 		
+		# Initialize State
+		self._first_symbol_clicked = None
+	
 	def handle_click(self):
-		pass
+		for el, symbol in self._elements:
+			if el.is_hovered():
+				#TODO: This isn't working			
+				if self._first_symbol_clicked != None:
+					self._grid_manager.swap(self._first_symbol_clicked, symbol)
+					self._first_symbol_clicked = None
+				else:
+					self._first_symbol_clicked = symbol
 	
 	def handle_key_up(self, key):
 		"""Handles a key up event by begining the game
 		"""
-		# Close the game if escape is pressed
+		# Go Back to the difficulty picker screen when escape is pressed
 		if key == K_ESCAPE:
-			pygame.quit()
-			sys.exit()
-	
+			self._screen_manager.go_back()	
+		
 	def _get_symbol_pos(self, x, y):
-		return (x * 100 + 100, y * 100 + 50)
+		square_pos = self._get_bg_pos(x, y)
+		return (square_pos[0], square_pos[1])
 	
 	def _get_bg_pos(self, x, y):
-		return (x * 100 + 50, y * 100 + 100, x * 100 + 150, y * 100 + 200)
+		ss = GameScreen.SQUARE_SIZE
+		
+		squares_that_could_fit_on_screen = self._screen_size[0] / ss		
+		total_padding_x = (squares_that_could_fit_on_screen - self._column_number) * ss
+		left_padding_x = total_padding_x/2
+		
+		padding_y = self._screen_size[1] - (GameScreen.ROWS * ss)
+		
+		return (x * ss + left_padding_x, y * ss + padding_y, ss, ss)
 
-			
 	def render(self, refresh_time):
 		"""Renderers the screen 
 		"""	
@@ -119,7 +136,11 @@ class GameScreen(Screen):
 		for x, col in enumerate(self._grid_manager.grid):
 			for y, symbol in enumerate(col):
 				rend = self._shape_renderer.render_rect(self._get_bg_pos(x, y), color=symbol.color)
+				self._elements.append((rend, symbol))
 			
 				self._sprite_renderer.render(SymbolSprite(self._get_symbol_pos(x, y), symbol))
-				self._elements.append((rend, symbol))
+				
+				if self._first_symbol_clicked == symbol:
+					pass # TODO: DO something to denote this symbol was clicked!
+				
 		

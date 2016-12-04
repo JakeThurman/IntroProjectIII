@@ -16,7 +16,7 @@ def main():
 	pygame.init()
 	
 	# Initialize the window
-	screen_size = (700, 500)
+	screen_size = (800, 600)
 	DISPLAYSURF = pygame.display.set_mode(screen_size, 0, 32)
 	pygame.display.set_caption("War")
 	
