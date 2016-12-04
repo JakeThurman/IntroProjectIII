@@ -13,6 +13,9 @@ class GridManager:
     #    the first num_cols of symbols repeated num_rows times
     def createGrid(self, num_rows, num_cols, symbols, colors):
         duplicates = []
+		
+		symbol_list = list(symbols)
+		random.shuffle(symbol_list)
 
         # chooses num_row colors to randomly be assigned to each row
         color_list = list(colors)
@@ -22,7 +25,7 @@ class GridManager:
         for row in range(0, num_rows):
             color = color_list[row]
             for col in range(0, num_cols):
-                duplicates.append(Symbol(color, symbols[col]))
+                duplicates.append(Symbol(color, symbol_list[col]))
         
         random.shuffle(duplicates)
 

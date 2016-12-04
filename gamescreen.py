@@ -63,6 +63,7 @@ class GameScreen(Screen):
 	"""	
 	ROWS = 5
 	TITLE_PADDING = 70
+	SYMBOLS = ("zinogre", "yang", "white_mana", "weiss", "red_mana", "mh_4", "guitar", "green_mana", "brachy", "blue_mana", "blake", "black_mana")
 	
 	def __init__(self, surface, screen_size, screen_manager, difficulty):
 		"""Constructor for the game screen
@@ -81,12 +82,9 @@ class GameScreen(Screen):
 		# Store settings
 		self._screen_size = screen_size
 		self._screen_manager = screen_manager
-		
-		symbols = ("zinogre", "yang", "white_mana", "weiss", "red_mana", "mh_4", "guitar", "green_mana", "brachy", "blue_mana", "blake", "black_mana")
-		random.shuffle(symbols)
-		
+				
 		self._column_nuber = difficulty.columns
-		self._grid_manager = GridManager(GameScreen.ROWS, self._column_nuber, symbols, colors.ALL)
+		self._grid_manager = GridManager(GameScreen.ROWS, self._column_nuber, GameScreen.SYMBOLS, colors.ALL)
 		
 	def handle_click(self):
 		pass
