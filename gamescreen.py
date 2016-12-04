@@ -8,6 +8,21 @@ class SymbolSprite(Sprite):
 	def __init__(self, pos, symbol):
 		super(SymbolSprite, self).__init__(pos[0], pos[1], "symbols/" + symbol.file_name + ".png", use_alpha=True)
 	
+class GameOverScreen(Screen):
+	"""Shows the user their score.
+	"""	
+	def __init__(self, surface, screen_size, screen_manager, score):
+		self
+	
+	def handle_click(self):
+		# Go Back twice on click, so the user can choose a new level
+		# Once to return to the game, again to the choice screen!
+		self._screen_manager.go_back()
+		self._screen_manager.go_back()
+		
+	
+	
+
 class DifficultyScreen(Screen):
 	"""Allows the user to select the dificulty of the game
 	"""	
@@ -93,10 +108,19 @@ class GameScreen(Screen):
 		for el, symbol in self._elements:
 			if el.is_hovered() and self._first_symbol_clicked != symbol:
 				if self._first_symbol_clicked != None:
-					self._grid_manager.swap(self._first_symbol_clicked, symbol)
+					self._swap(self._first_symbol_clicked, symbol)
 					self._first_symbol_clicked = None
 				else:
 					self._first_symbol_clicked = symbol
+					
+	def _swap(self, a, b):
+		self._grid_manager.swap(a, b)
+		
+		if self._grid_manager.gridIsSolved():
+			self._end_game(is_win=False)
+	
+	def _end_game(self, is_win):
+		self._screen_manager.set(lambda *args: GameOverScreen(*args, score=self._grid_manager.score, is_win=is_win))
 	
 	def handle_key_up(self, key):
 		"""Handles a key up event by begining the game
