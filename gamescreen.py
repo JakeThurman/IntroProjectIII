@@ -13,7 +13,7 @@ class GameOverScreen(Screen):
 	"""	
 	def __init__(self, surface, screen_size, screen_manager, score, is_win):
 		# init parent class
-		super(DifficultyScreen, self).__init__()
+		super(GameOverScreen, self).__init__()
 		
 		# Create dependencies
 		self._shape_renderer = ShapeRenderer(surface)
@@ -27,14 +27,16 @@ class GameOverScreen(Screen):
 		self._screen_size = screen_size
 		self._screen_manager = screen_manager
 		
-		# store score
+		# Store properties
 		self._score = score
+		self._is_win = is_win
 	
 	def handle_click(self):
-		# Go Back twice on click, so the user can choose a new level
-		# Once to return to the game, again to the choice screen!
-		self._screen_manager.go_back()
-		self._screen_manager.go_back()
+		if self._play_again_bttn.is_hovered:
+			# Go Back twice on click, so the user can choose a new level
+			# Once to return to the game, again to the choice screen!
+			self._screen_manager.go_back()
+			self._screen_manager.go_back()
 	
 	def render(self, refresh_time):
 		# Set the background
@@ -42,8 +44,14 @@ class GameOverScreen(Screen):
 		
 		# Draw the title
 		self._title_renderer.render(resources.GAME_NAME, (self._screen_size[0]/2, 50), center=True, color=colors.WHITE)
-
 		
+		# Tell the user if they won or lost
+		msg = resources.WIN_MSG if self._is_win else resources.LOSS_MSG
+		self._option_renderer.render(msg, (self._screen_size[0]/2, 150), center=True, color=colors.WHITE, hover_color=colors.WHITE)
+		self._option_renderer.render(resources.FINAL_SCORE.format(self._score), (self._screen_size[0]/2, 200), center=True, color=colors.WHITE, hover_color=colors.WHITE)
+		
+		# Play again link
+		self._play_again_bttn = self._option_renderer.render(resources.PLAY_AGAIN, (self._screen_size[0]/2, self._screen_size[1] - self._screen_size[1]/4), center=True, color=colors.SILVER)
 		
 	
 class DifficultyScreen(Screen):
