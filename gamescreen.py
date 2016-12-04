@@ -4,6 +4,9 @@ from rendering import *
 from screen import Screen
 from gridmanager import GridManager
 
+class SymbolSprite(Sprite):
+	def __init__(self, pos, symbol):
+		super(SymbolSprite, self).__init__(pos[0], pos[1], "symbols/" + symbol.file_name + ".png")
 	
 class DifficultyScreen(Screen):
 	"""Allows the user to select the dificulty of the game
@@ -57,7 +60,7 @@ class DifficultyScreen(Screen):
 		for i, value in enumerate(difficulty.ALL):
 			rend = self._option_renderer.render(value.title, self._get_pos(i), center=True)
 			self._elements.append((rend, value))
-
+			
 class GameScreen(Screen):
 	"""Renderers Game Screen
 	"""	
@@ -74,10 +77,7 @@ class GameScreen(Screen):
 		# Create dependencies
 		self._shape_renderer = ShapeRenderer(surface)
 		self._sprite_renderer = SpriteRenderer(surface)
-		
-		font_factory = fonts.random_font_factory()
-		self._option_renderer = OptionRenderer(surface, font_factory())
-		self._title_renderer = OptionRenderer(surface, font_factory(30))
+		self._title_renderer = OptionRenderer(surface, fonts.random_font(30))
 		
 		# Store settings
 		self._screen_size = screen_size
@@ -97,21 +97,10 @@ class GameScreen(Screen):
 			pygame.quit()
 			sys.exit()
 	
-	def _get_pos_impl(self, x, y, padders):
-		return ((self._screen_size[0] / (self._column_nuber + padders)) * (x + 1), (((self._screen_size[1] - GameScreen.TITLE_PADDING) / (self._column_nuber + padders)) * (x + 1)) + GameScreen.TITLE_PADDING)
-
-	
 	def _get_symbol_pos(self, x, y):
-		#return self._get_pos_impl(x, y, 1)
-		
 		return (x * 100 + 100, y * 100 + 50)
 	
 	def _get_bg_pos(self, x, y):
-		top_left = self._get_pos_impl(x, y, 3)
-		bottom_right = self._get_pos_impl(x + 1, y + 1, 3)
-	
-		#return (top_left[0], top_left[1], bottom_right[0], bottom_right[1])
-		
 		return (x * 100 + 50, y * 100 + 100, x * 100 + 150, y * 100 + 200)
 
 			
@@ -131,6 +120,6 @@ class GameScreen(Screen):
 			for y, symbol in enumerate(col):
 				rend = self._shape_renderer.render_rect(self._get_bg_pos(x, y), color=symbol.color)
 			
-				self._option_renderer.render(symbol.symbol, self._get_symbol_pos(x, y), center=True, force_hover=rend.is_hovered())
+				self._sprite_renderer.render(SymbolSprite(self._get_symbol_pos(x, y), symbol))
 				self._elements.append((rend, symbol))
 		
