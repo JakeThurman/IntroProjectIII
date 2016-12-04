@@ -2,7 +2,7 @@ import pygame, sys, datetime, logging
 from pygame.locals import *
 from screen import ScreenManager
 from tkinter import messagebox
-from gamescreen import GameScreen
+from gamescreen import DifficultyScreen
 
 # This is start point for the game.
 #  See gamescreen.py for the main game logic.
@@ -25,7 +25,7 @@ def main():
 	manager = ScreenManager(DISPLAYSURF, screen_size)
 	
 	# Set the initital screen
-	manager.set(GameScreen)
+	manager.set(DifficultyScreen)
 	
 	# FPS manager
 	clock = pygame.time.Clock()

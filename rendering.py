@@ -13,13 +13,23 @@ class ShapeRenderer(object):
 		"""Draws a pygame rectangle
 		"""
 		if alpha == None:
-			pygame.draw.rect(self.surface, color, coords) # Draw a basic rectangle
+			rect = pygame.draw.rect(self.surface, color, coords) # Draw a basic rectangle
+			return Hoverable(rect)
 		else:
 			s = pygame.Surface((coords[2] - coords[0], coords[3] - coords[1])) # the size of the rect
 			s.set_alpha(alpha)                           # alpha level
 			s.fill(color)                                # this fills the entire surface
 			self.surface.blit(s, (coords[0], coords[1])) # set the top-left coordinates
+			return Hoverable(s)
 
+class Hoverable:
+	def __init__(self, rend):
+		self.rend = rend
+		
+	def is_hovered(self):
+		self.rend.collidepoint(pygame.mouse.get_pos())
+			
+# TODO: Merge with Hoverable
 class Option(object):
 	"""Minimal return data class
 	"""
@@ -37,28 +47,28 @@ class OptionRenderer(object):
 		self.surface = surface
 		self.do_hover = do_hover
 
-	def render(self, text, pos, color=colors.MID_GRAY, hover_color=colors.WHITE, center=False):
+	def render(self, text, pos, color=colors.MID_GRAY, hover_color=colors.WHITE, center=False, force_hover=False):
 		""" Renders an option
 		"""
 		rect = self._make_rect(text, pos, center)
-		rend = self._do_rend(text, rect, color, hover_color)
+		rend = self._do_rend(text, rect, color, hover_color, force_hover)
 		self.surface.blit(rend, rect)
 		return Option(self._is_hovered(rect))
 
-	def _do_rend(self, text, rect, color, hover_color):
+	def _do_rend(self, text, rect, color, hover_color, force_hover):
 		"""Rendering Imp'l
 		"""
-		return self.font.render(text, True, self._get_color(rect, color, hover_color))
+		return self.font.render(text, True, self._get_color(rect, color, hover_color, force_hover))
 
 	def _is_hovered(self, rect):
 		"""Checks if the mouse is over the item
 		"""
 		return rect != None and rect.collidepoint(pygame.mouse.get_pos())
 	
-	def _get_color(self, rect, color, hover_color):
+	def _get_color(self, rect, color, hover_color, force_hover):
 		"""Get's the color for item including hovering handling
 		"""
-		if self.do_hover and self._is_hovered(rect):
+		if force_hover or (self.do_hover and self._is_hovered(rect)):
 			return hover_color
 		else:
 			return color
@@ -66,7 +76,7 @@ class OptionRenderer(object):
 	def _make_rect(self, text, pos, center):
 		"""Makes the outline rectangle for the object
 		"""
-		rect = self._do_rend(text, None, (0,0,0), (0,0,0)).get_rect()
+		rect = self._do_rend(text, None, (0,0,0), (0,0,0), False).get_rect()
 		if center:
 			rect.center = pos
 		else:
