@@ -63,7 +63,7 @@ class GameScreen(Screen):
 	"""	
 	ROWS = 5
 	TITLE_PADDING = 70
-	SYMBOLS = ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
+	SYMBOLS = ("zinogre", "yang", "white_mana", "weiss", "red_mana", "mh_4", "guitar", "green_mana", "brachy", "blue_mana", "blake", "black_mana")
 	
 	def __init__(self, surface, screen_size, screen_manager, difficulty):
 		"""Constructor for the game screen
