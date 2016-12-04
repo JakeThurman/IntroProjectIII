@@ -82,7 +82,7 @@ class GridManager:
             col2, row2 = index_of_2
             self.grid[col2].insert(row2, symbol_1)
             self.grid[col2].remove(symbol_2)
-        self.score--
+        self.score -= 1
 
     # returns the location of the given symbol as a tuple.
     #   if symbol is not found, returns (-1, -1)
