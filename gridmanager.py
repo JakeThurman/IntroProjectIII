@@ -50,7 +50,35 @@ class GridManager:
 
     # returns true if the player's grid is the same as the answer key
     def gridIsSolved(self):
-        return self.grid == self.answer_key
+        # get the symbols from each col
+        for row in range(0, self.num_rows):
+            symbol_check = []
+            for col in range(0, self.num_cols):
+                symbol_check.append(self.grid[col, row].symbol)
+
+            #check the symbols in each col and make sure they are the same
+            symbol = symbol_check[0]
+            for s in symbol_check:
+                if s != symbol:
+                    return False
+
+        # get the colors from each row
+        for col in range(0, self.num_cols):
+            color_check = []
+            for row in range(0, self.num_rows):
+                color_check.append(self.grid[col, row].color)
+
+            #check the colors in each row and make sure they are the same
+            color = color_check[0]
+            for c in color_check:
+                if c!= color:
+                    return False
+
+        # all the rows have the same color and all of the cols have the same symbol
+        return True
+
+                
+
 
     # swaps the location of two items on the grid            
     def swap(self, symbol_1, symbol_2):
