@@ -70,9 +70,6 @@ class GridManager:
         # all the rows have the same color and all of the cols have the same symbol
         return True
 
-                
-
-
     # swaps the location of two items on the grid            
     def swap(self, symbol_1, symbol_2):
         index_of_1 = self.getIndexOf(symbol_1)
@@ -96,11 +93,7 @@ class GridManager:
                     return (col, row)
         return (-1, -1)
     
-
-        
-
-
 class Symbol:
-    def __init__(self, color, file_name):
+    def __init__(self, color, symbol):
         self.color = color
-        self.file_name = file_name        
+        self.symbol = symbol        
