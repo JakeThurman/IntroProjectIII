@@ -6,7 +6,7 @@ from gridmanager import GridManager
 
 class SymbolSprite(Sprite):
 	def __init__(self, pos, symbol):
-		super(SymbolSprite, self).__init__(pos[0], pos[1], "symbols/" + symbol.file_name + ".png")
+		super(SymbolSprite, self).__init__(pos[0], pos[1], "symbols/" + symbol.file_name + ".png", use_alpha=True)
 	
 class DifficultyScreen(Screen):
 	"""Allows the user to select the dificulty of the game
