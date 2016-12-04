@@ -7,6 +7,7 @@ class GridManager:
         self.num_rows = num_rows
         self.num_cols = num_cols
         self.grid = self.createGrid(num_rows, num_cols, symbols, colors)
+        self.score = num_rows * num_cols
         
 
     # creates a shuffled grid with num_cols number of columns that contains
@@ -84,6 +85,7 @@ class GridManager:
             col2, row2 = index_of_2
             self.grid[col2].insert(row2, symbol_1)
             self.grid[col2].remove(symbol_2)
+        self.score--
 
     # returns the location of the given symbol as a tuple.
     #   if symbol is not found, returns (-1, -1)
