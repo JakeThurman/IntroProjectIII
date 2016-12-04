@@ -47,7 +47,7 @@ class GridManager:
         for row in range(0, self.num_rows):
             symbol_check = []
             for col in range(0, self.num_cols):
-                symbol_check.append(self.grid[col, row].symbol)
+                symbol_check.append(self.grid[col][row].file_name)
 
             #check the symbols in each col and make sure they are the same
             symbol = symbol_check[0]
@@ -59,7 +59,7 @@ class GridManager:
         for col in range(0, self.num_cols):
             color_check = []
             for row in range(0, self.num_rows):
-                color_check.append(self.grid[col, row].color)
+                color_check.append(self.grid[col][row].color)
 
             #check the colors in each row and make sure they are the same
             color = color_check[0]
