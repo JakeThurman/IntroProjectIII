@@ -168,7 +168,7 @@ class GameScreen(Screen):
 		total_padding_x = (squares_that_could_fit_on_screen - self._column_number) * ss
 		left_padding_x = total_padding_x/2
 		
-		padding_y = self._screen_size[1] - (GameScreen.ROWS * ss)
+		padding_y = self._screen_size[1] - (GameScreen.ROWS * ss) - 10
 		
 		return (x * ss + left_padding_x, y * ss + padding_y, ss, ss)
 
