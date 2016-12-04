@@ -23,7 +23,7 @@ class DifficultyScreen(Screen):
 		
 		font_factory = fonts.random_font_factory()
 		self._option_renderer = OptionRenderer(surface, font_factory())
-		self._title_renderer = OptionRenderer(surface, font_factory(30))
+		self._title_renderer = OptionRenderer(surface, font_factory(30), do_hover=False)
 		
 		# Store settings
 		self._screen_size = screen_size
@@ -52,7 +52,7 @@ class DifficultyScreen(Screen):
 		self._shape_renderer.render_rect((0, 0, self._screen_size[0], self._screen_size[1]), color=colors.DARK_GRAY)
 
 		# Draw the title
-		self._title_renderer.render(resources.GAME_NAME, (self._screen_size[0]/2, 50), center=True)
+		self._title_renderer.render(resources.GAME_NAME, (self._screen_size[0]/2, 50), center=True, color=colors.WHITE)
 		
 		# Reset the rendered element list
 		self._elements = []
@@ -77,7 +77,7 @@ class GameScreen(Screen):
 		# Create dependencies
 		self._shape_renderer = ShapeRenderer(surface)
 		self._sprite_renderer = SpriteRenderer(surface)
-		self._title_renderer = OptionRenderer(surface, fonts.random_font(30))
+		self._title_renderer = OptionRenderer(surface, fonts.random_font(30), do_hover=False)
 		
 		# Store settings
 		self._screen_size = screen_size
@@ -111,7 +111,7 @@ class GameScreen(Screen):
 		self._shape_renderer.render_rect((0, 0, self._screen_size[0], self._screen_size[1]), color=colors.DARK_GRAY)
 		
 		# Draw the title
-		self._title_renderer.render(resources.GAME_NAME, (self._screen_size[0]/2, 50), center=True)
+		self._title_renderer.render(resources.GAME_NAME, (self._screen_size[0]/2, 50), center=True, color=colors.WHITE)
 		
 		# Reset the rendered element list
 		self._elements = []
