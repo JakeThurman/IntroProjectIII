@@ -11,18 +11,41 @@ class SymbolSprite(Sprite):
 class GameOverScreen(Screen):
 	"""Shows the user their score.
 	"""	
-	def __init__(self, surface, screen_size, screen_manager, score):
-		self
+	def __init__(self, surface, screen_size, screen_manager, score, is_win):
+		# init parent class
+		super(DifficultyScreen, self).__init__()
+		
+		# Create dependencies
+		self._shape_renderer = ShapeRenderer(surface)
+		self._sprite_renderer = SpriteRenderer(surface)
+		
+		font_factory = fonts.random_font_factory()
+		self._option_renderer = OptionRenderer(surface, font_factory())
+		self._title_renderer = OptionRenderer(surface, font_factory(30), do_hover=False)
+		
+		# Store settings
+		self._screen_size = screen_size
+		self._screen_manager = screen_manager
+		
+		# store score
+		self._score = score
 	
 	def handle_click(self):
 		# Go Back twice on click, so the user can choose a new level
 		# Once to return to the game, again to the choice screen!
 		self._screen_manager.go_back()
 		self._screen_manager.go_back()
+	
+	def render(self, refresh_time):
+		# Set the background
+		self._shape_renderer.render_rect((0, 0, self._screen_size[0], self._screen_size[1]), color=colors.DARK_GRAY)
+		
+		# Draw the title
+		self._title_renderer.render(resources.GAME_NAME, (self._screen_size[0]/2, 50), center=True, color=colors.WHITE)
+
+		
 		
 	
-	
-
 class DifficultyScreen(Screen):
 	"""Allows the user to select the dificulty of the game
 	"""	
@@ -92,7 +115,10 @@ class GameScreen(Screen):
 		# Create dependencies
 		self._shape_renderer = ShapeRenderer(surface)
 		self._sprite_renderer = SpriteRenderer(surface)
-		self._title_renderer = OptionRenderer(surface, fonts.random_font(30), do_hover=False)
+		
+		font_factory = fonts.random_font_factory()
+		self._title_renderer = OptionRenderer(surface, font_factory(30), do_hover=False)
+		self._score_renderer = OptionRenderer(surface, font_factory(20), do_hover=False)
 		
 		# Store settings
 		self._screen_size = screen_size
@@ -117,6 +143,8 @@ class GameScreen(Screen):
 		self._grid_manager.swap(a, b)
 		
 		if self._grid_manager.gridIsSolved():
+			self._end_game(is_win=True)
+		elif self._grid_manager.score == 0:
 			self._end_game(is_win=False)
 	
 	def _end_game(self, is_win):
@@ -152,6 +180,9 @@ class GameScreen(Screen):
 		
 		# Draw the title
 		self._title_renderer.render(resources.GAME_NAME, (self._screen_size[0]/2, 50), center=True, color=colors.WHITE)
+		
+		# Output the score
+		self._score_renderer.render(resources.SCORE.format(self._grid_manager.score), (self._screen_size[0]/2, 80), center=True, color=colors.SILVER)
 		
 		# Reset the rendered element list
 		self._elements = []
