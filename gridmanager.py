@@ -45,27 +45,24 @@ class GridManager:
     def gridIsSolved(self):
         # get the symbols from each col
         for row in range(0, self.num_rows):
-            symbol_check = []
+            color_check = []
             for col in range(0, self.num_cols):
-                symbol_check.append(self.grid[col][row].file_name)
+                color_check.append(self.grid[col][row].color)
 
             #check the symbols in each col and make sure they are the same
-            symbol = symbol_check[0]
-            for s in symbol_check:
-                if s != symbol:
-                    return False
+            if not all_items_equal(color_check):
+                return False
+                
 
         # get the colors from each row
         for col in range(0, self.num_cols):
-            color_check = []
+            file_check = []
             for row in range(0, self.num_rows):
-                color_check.append(self.grid[col][row].color)
+                file_check.append(self.grid[col][row].file_name)
 
             #check the colors in each row and make sure they are the same
-            color = color_check[0]
-            for c in color_check:
-                if c!= color:
-                    return False
+            if not all_items_equal(file_check):
+                return False
 
         # all the rows have the same color and all of the cols have the same symbol
         return True
@@ -92,6 +89,9 @@ class GridManager:
 		
         raise Exception("Symbol not found in grid! symbol.file_name={0} symbol.color={1}".format(symbol.file_name, symbol.color))
     
+def all_items_equal(x):
+    return x.count(x[0]) == len(x)
+	
 class Symbol:
     def __init__(self, color, file_name):
         self.color = color
