@@ -76,12 +76,10 @@ class GridManager:
         index_of_2 = self.getIndexOf(symbol_2)
         if index_of_1 != (-1, -1) and index_of_2 != (-1, -1):
             col1, row1 = index_of_1
-            self.grid[col1].insert(row1, symbol_2)
-            self.grid[col1].remove(symbol_1)
-
+            self.grid[col1][row1] = symbol_2
+			
             col2, row2 = index_of_2
-            self.grid[col2].insert(row2, symbol_1)
-            self.grid[col2].remove(symbol_2)
+            self.grid[col2][row2] = symbol_1
         self.score -= 1
 
     # returns the location of the given symbol as a tuple.
@@ -91,7 +89,8 @@ class GridManager:
             for row in range(0, self.num_rows):
                 if self.grid[col][row] == symbol:
                     return (col, row)
-        return (-1, -1)
+		
+        raise Exception("Symbol not found in grid! symbol.file_name={0} symbol.color={1}".format(symbol.file_name, symbol.color))
     
 class Symbol:
     def __init__(self, color, file_name):
