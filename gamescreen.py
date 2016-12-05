@@ -7,7 +7,11 @@ from gridmanager import GridManager
 class SymbolSprite(Sprite):
 	def __init__(self, pos, symbol):
 		super(SymbolSprite, self).__init__(pos[0], pos[1], "symbols/" + symbol.file_name + ".png", use_alpha=True)
-	
+		
+class SelectionMarker(Sprite):
+	def __init__(self, pos):
+		super(SelectionMarker, self).__init__(pos[0], pos[1], "images/marker.png", use_alpha=True)
+
 class GameOverScreen(Screen):
 	"""Shows the user their score.
 	"""	
@@ -209,9 +213,10 @@ class GameScreen(Screen):
 				rend = self._shape_renderer.render_rect(self._get_bg_pos(x, y), color=symbol.color)
 				self._elements.append((rend, symbol))
 			
-				self._sprite_renderer.render(SymbolSprite(self._get_symbol_pos(x, y), symbol))
+				pos = self._get_symbol_pos(x, y)
+				self._sprite_renderer.render(SymbolSprite(pos, symbol))
 				
 				if self._first_symbol_clicked == symbol:
-					pass # TODO: DO something to denote this symbol was clicked!
+					self._sprite_renderer.render(SelectionMarker(pos))
 				
 		
