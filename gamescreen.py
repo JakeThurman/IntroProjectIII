@@ -142,11 +142,19 @@ class GameScreen(Screen):
 	def handle_click(self):
 		for el, symbol in self._elements:
 			if el.is_hovered() and self._first_symbol_clicked != symbol:
-				if self._first_symbol_clicked != None:
+				# Handle First Click
+				if self._first_symbol_clicked == None:
+					self._first_symbol_clicked = symbol
+				# Handle Second Click
+				else:
 					self._swap(self._first_symbol_clicked, symbol)
 					self._first_symbol_clicked = None
-				else:
-					self._first_symbol_clicked = symbol
+				# Stop checking. That's all we needed!
+				return
+				
+		# If they clicked outside the game, or on the 
+		#  same element, cancel the first click		
+		self._first_symbol_clicked = None
 					
 	def _swap(self, a, b):
 		self._grid_manager.swap(a, b)
