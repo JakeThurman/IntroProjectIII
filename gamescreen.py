@@ -112,6 +112,7 @@ class GameScreen(Screen):
 	"""	
 	ROWS = 5
 	SQUARE_SIZE = 100
+	COLORS = (colors.GREEN, colors.BLUE, colors.YELLOW, colors.SKY_BLUE, colors.LIGHT_GRAY, colors.MID_GREEN, colors.PALE_GREEN, colors.TOMATO)
 	SYMBOLS = ("zinogre", "yang", "white_mana", "weiss", "red_mana", "mh_4", "guitar", "green_mana", "brachy", "blue_mana", "blake", "black_mana")
 	
 	def __init__(self, surface, screen_size, screen_manager, difficulty):
@@ -133,7 +134,7 @@ class GameScreen(Screen):
 		self._screen_manager = screen_manager
 				
 		self._column_number = difficulty.columns
-		self._grid_manager = GridManager(GameScreen.ROWS, self._column_number, GameScreen.SYMBOLS, colors.ALL)
+		self._grid_manager = GridManager(GameScreen.ROWS, self._column_number, GameScreen.SYMBOLS, GameScreen.COLORS)
 		
 		# Initialize State
 		self._first_symbol_clicked = None
