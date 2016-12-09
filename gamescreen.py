@@ -108,7 +108,7 @@ class DifficultyScreen(Screen):
 		self._elements = []
 		
 		for i, value in enumerate(difficulty.ALL):
-			rend = self._option_renderer.render(value.title, self._get_pos(i), center=True)
+			rend = self._option_renderer.render(value.title, self._get_pos(i), center=True, color=colors.SILVER)
 			self._elements.append((rend, value))
 			
 class GameScreen(Screen):
