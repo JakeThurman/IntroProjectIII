@@ -138,7 +138,7 @@ class GameScreen(Screen):
 		self._screen_manager = screen_manager
 				
 		self._column_number = difficulty.columns
-		self._grid_manager = GridManager(GameScreen.ROWS, self._column_number, GameScreen.SYMBOLS, GameScreen.COLORS)
+		self._grid_manager = GridManager(self.ROWS, self._column_number, self.SYMBOLS, self.COLORS)
 		
 		# Initialize State
 		self._first_symbol_clicked = None
@@ -183,13 +183,13 @@ class GameScreen(Screen):
 		return (square_pos[0], square_pos[1])
 	
 	def _get_bg_pos(self, x, y):
-		ss = GameScreen.SQUARE_SIZE
+		ss = self.SQUARE_SIZE
 		
 		squares_that_could_fit_on_screen = self._screen_size[0] / ss		
 		total_padding_x = (squares_that_could_fit_on_screen - self._column_number) * ss
 		left_padding_x = total_padding_x/2
 		
-		padding_y = self._screen_size[1] - (GameScreen.ROWS * ss) - 10
+		padding_y = self._screen_size[1] - (self.ROWS * ss) - 10
 		
 		return (x * ss + left_padding_x, y * ss + padding_y, ss, ss)
 
