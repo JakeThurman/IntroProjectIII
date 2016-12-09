@@ -1,4 +1,4 @@
-GAME_NAME = "Matching Game"
+GAME_NAME = "The Sorting Game"
 
 DIFFICULTY_EASY = "Easy"
 DIFFICULTY_MEDIUM = "Medium"

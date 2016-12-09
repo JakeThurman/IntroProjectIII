@@ -1,4 +1,4 @@
-import pygame, sys, datetime, logging
+import pygame, sys, datetime, logging, resources
 from pygame.locals import *
 from screen import ScreenManager
 from tkinter import messagebox
@@ -18,7 +18,7 @@ def main():
 	# Initialize the window
 	screen_size = (800, 650)
 	DISPLAYSURF = pygame.display.set_mode(screen_size, 0, 32)
-	pygame.display.set_caption("War")
+	pygame.display.set_caption(resources.GAME_NAME)
 	
 	# Create a screen manager object
 	# This will handle switching from screen to screen for us
