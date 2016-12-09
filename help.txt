@@ -1,0 +1,10 @@
+The goal of the game is to get all of spaces with the same symbol to be in a column and all of the spaces with the same color to the same row.
+
+You can swap two spaces by clicking the two you want to switch. When you click the first, you should see a checkmark appear over that space. If you clicked the wrong space, click that space again or anywhere outside the sameboard to clear your selection.
+
+Be careful making swaps, as you only have a certain number of swaps allowed before you lose!
+
+Have Fun! 
+
+
+Game By: Jake Thurman & Thomas Frick

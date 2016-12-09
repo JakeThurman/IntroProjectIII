@@ -1,4 +1,5 @@
 import pygame, sys, colors, fonts, random, resources, difficulty
+import textwrapping
 from pygame.locals import *
 from rendering import *
 from screen import Screen
@@ -11,6 +12,10 @@ class SymbolSprite(Sprite):
 class SelectionMarker(Sprite):
 	def __init__(self, pos):
 		super(SelectionMarker, self).__init__(pos[0], pos[1], "images/marker.png", use_alpha=True)
+		
+class BackArrow(Sprite):
+	def __init__(self, pos):
+		super(BackArrow, self).__init__(pos[0], pos[1], "images/back-arrow.png", use_alpha=True)
 
 class GameOverScreen(Screen):
 	"""Shows the user their score.
@@ -57,7 +62,61 @@ class GameOverScreen(Screen):
 		# Play again link
 		self._play_again_bttn = self._option_renderer.render(resources.PLAY_AGAIN, (self._screen_size[0]/2, self._screen_size[1] - self._screen_size[1]/4), center=True, color=colors.SILVER)
 		
+class HelpScreen(Screen):
+	"""Shows the user stuff
+	"""
+	def __init__(self, surface, screen_size, screen_manager):
+		# init parent class
+		super(HelpScreen, self).__init__()
+		
+		# Create dependencies
+		self._shape_renderer = ShapeRenderer(surface)
+		self._sprite_renderer = SpriteRenderer(surface)
+		
+		font_factory = fonts.random_font_factory()
+		self._text_font = font_factory(22)
+		self._text_renderer = OptionRenderer(surface, self._text_font, do_hover=False)
+		self._title_renderer = OptionRenderer(surface, font_factory(30), do_hover=False)
+		
+		# Store settings
+		self._screen_size = screen_size
+		self._screen_manager = screen_manager
+		
+		with open('help.txt', 'r') as my_file:
+			self._msg = my_file.read()
+		
+	def handle_key_up(self, key):
+		"""Handles a key up event by begining the game
+		"""
+		# Go Back to the level screen when escape is pressed
+		if key == K_ESCAPE:
+			self._screen_manager.go_back()	
 	
+	def _get_pos(self, i):
+		return (self._screen_size[0]/2, (i + 3) * self._screen_size[1]/18)
+	
+	def handle_click(self):
+		# Handle the back button
+		if self.back_bttn.is_hovered():
+			self._screen_manager.go_back()
+	
+	def render(self, refresh_time):
+		"""Renderers the screen 
+		"""	
+		# Set the background
+		self._shape_renderer.render_rect((0, 0, self._screen_size[0], self._screen_size[1]), color=colors.DARK_GRAY)
+
+		# Draw the title
+		self._title_renderer.render(resources.GAME_NAME, (self._screen_size[0]/2, 50), center=True, color=colors.WHITE)
+				
+		# Draw the back arrow
+		self.back_bttn = self._sprite_renderer.render(BackArrow((self._screen_size[0] - 50, 20)))
+				
+		# Write the other text
+		lines = textwrapping.wrap_multi_line(self._msg, self._text_font, self._screen_size[0] - self._screen_size[0]/16)
+		for i, line in enumerate(lines):
+			rend = self._text_renderer.render(line, self._get_pos(i), center=True, color=colors.WHITE)
+
 class DifficultyScreen(Screen):
 	"""Allows the user to select the dificulty of the game
 	"""	
@@ -132,6 +191,7 @@ class GameScreen(Screen):
 		font_factory = fonts.random_font_factory()
 		self._title_renderer = OptionRenderer(surface, font_factory(30), do_hover=False)
 		self._score_renderer = OptionRenderer(surface, font_factory(20), do_hover=False)
+		self._option_renderer = OptionRenderer(surface, font_factory())
 		
 		# Store settings
 		self._screen_size = screen_size
@@ -144,6 +204,9 @@ class GameScreen(Screen):
 		self._first_symbol_clicked = None
 	
 	def handle_click(self):
+		if self.help_bttn.is_hovered:
+			self._screen_manager.set(HelpScreen)
+		
 		for el, symbol in self._elements:
 			if el.is_hovered() and self._first_symbol_clicked != symbol:
 				# Handle First Click
@@ -204,6 +267,9 @@ class GameScreen(Screen):
 		
 		# Output the score
 		self._score_renderer.render(resources.SCORE.format(self._grid_manager.score), (self._screen_size[0]/2, 80), center=True, color=colors.SILVER)
+		
+		# Draw the "Help" icon
+		self.help_bttn = self._option_renderer.render("?", (self._screen_size[0] - 30, 30), center=True)
 		
 		# Reset the rendered element list
 		self._elements = []
