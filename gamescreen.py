@@ -1,4 +1,4 @@
-import pygame, sys, colors, fonts, random, resources, difficulty, high_score_manager
+import pygame, sys, colors, fonts, random, resources, difficulty, highscoremanager
 import textwrapping
 from pygame.locals import *
 from rendering import *
@@ -20,7 +20,7 @@ class BackArrow(Sprite):
 class GameOverScreen(Screen):
 	"""Shows the user their score.
 	"""	
-	def __init__(self, surface, screen_size, screen_manager, score, is_win, difficulty):
+	def __init__(self, surface, screen_size, screen_manager, score, is_win):
 		# init parent class
 		super(GameOverScreen, self).__init__()
 		
@@ -39,7 +39,6 @@ class GameOverScreen(Screen):
 		# Store properties
 		self._score = score
 		self._is_win = is_win
-		self._difficulty = difficulty
 	
 	def handle_click(self):
 		if self._play_again_bttn.is_hovered:
@@ -61,7 +60,7 @@ class GameOverScreen(Screen):
 		self._option_renderer.render(resources.FINAL_SCORE.format(self._score), (self._screen_size[0]/2, 200), center=True, color=colors.WHITE, hover_color=colors.WHITE)
 
 		# Display High Score Table
-		hs_msg_lines = resources.HIGH_SCORES_MSG.format(*high_score_manager.high_scores).splitlines()
+		hs_msg_lines = resources.HIGH_SCORES_MSG.format(*highscoremanager.get()).splitlines()
 		
 		for i, line in enumerate(hs_msg_lines):
 			self._option_renderer.render(line, (self._screen_size[0]/2, 275 + (35 * i)), center=True, color=colors.WHITE, hover_color=colors.WHITE)
@@ -241,8 +240,8 @@ class GameScreen(Screen):
 			self._end_game(is_win=False)
 	
 	def _end_game(self, is_win):
-		high_score_manager.update_high_scores(self._grid_manager.score)
-		self._screen_manager.set(lambda *args: GameOverScreen(*args, score=self._grid_manager.score, is_win=is_win, difficulty = self._difficulty))
+		highscoremanager.push(self._grid_manager.score)
+		self._screen_manager.set(lambda *args: GameOverScreen(*args, score=self._grid_manager.score, is_win=is_win))
 	
 	def handle_key_up(self, key):
 		"""Handles a key up event by begining the game
