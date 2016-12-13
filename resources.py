@@ -2,7 +2,7 @@ GAME_NAME = "The Sorting Game"
 
 DIFFICULTY_EASY = "Easy"
 DIFFICULTY_MEDIUM = "Medium"
-DIFFICULTY_HARD = "Hard"
+DIFFICULTY_HARD = "Expert"
 
 SCORE = "Turns Remaining: {0}"
 WIN_MSG = "Congrats, You Won!"
