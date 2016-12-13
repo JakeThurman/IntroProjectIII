@@ -61,11 +61,13 @@ class GameOverScreen(Screen):
 		self._option_renderer.render(resources.FINAL_SCORE.format(self._score), (self._screen_size[0]/2, 200), center=True, color=colors.WHITE, hover_color=colors.WHITE)
 
 		# Display High Score Table
-		hs_msg = resources.HIGH_SCORES_MSG.format(*high_score_manager.high_scores)
-		self._option_renderer.render(hs_msg, (self._screen_size[0]/2, 250), center=True, color=colors.WHITE, hover_color=colors.WHITE)
-				
+		hs_msg_lines = resources.HIGH_SCORES_MSG.format(*high_score_manager.high_scores).splitlines()
+		
+		for i, line in enumerate(hs_msg_lines):
+			self._option_renderer.render(line, (self._screen_size[0]/2, 275 + (35 * i)), center=True, color=colors.WHITE, hover_color=colors.WHITE)
+		
 		# Play again link
-		self._play_again_bttn = self._option_renderer.render(resources.PLAY_AGAIN, (self._screen_size[0]/2, self._screen_size[1] - self._screen_size[1]/4), center=True, color=colors.SILVER)
+		self._play_again_bttn = self._option_renderer.render(resources.PLAY_AGAIN, (self._screen_size[0]/2, self._screen_size[1] - self._screen_size[1]/7), center=True, color=colors.SILVER)
 		
 class HelpScreen(Screen):
 	"""Shows the user stuff
